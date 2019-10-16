@@ -16,7 +16,7 @@ const useStyles = makeStyles({
 });
 
 export default () => {
-    const [expression, setExpression] = useState([1,'+',22]);
+    const [expression, setExpression] = useState([1, '+', 22]);
     const classes = useStyles();
 
     const actions = {
@@ -35,24 +35,24 @@ export default () => {
         '←': () => deleteOne(),
     };
 
-    const clearAll = () => setExpression([]);
+    const clearAll = () => setExpression([0]);
 
     const clearLast = () => {
         let newExpression = [...expression];
         newExpression.splice(-1, 1);
 
-        setExpression([...newExpression]);
+        setExpression(newExpression.length ? [...newExpression] : [0]);
     };
 
     const deleteOne = () => {
         const newExpression = [...expression];
-        let last = newExpression.splice(-1, 1);
+        let [last] = newExpression.splice(-1, 1);
 
-        if (last < 10) {
-            setExpression([...newExpression]);
+        if (last < 10 || !_.isInteger(last)) {
+            setExpression(newExpression.length ? [...newExpression] : [0]);
+        } else {
+            setExpression([...newExpression, _.toInteger(last / 10)]);
         }
-
-        setExpression([...newExpression, _.toInteger(last / 10)]);
     };
 
     const addNumber = (num) => {
